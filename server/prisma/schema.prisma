@@ -11,11 +11,22 @@ datasource db {
 }
 
 model User {
+  id        String @id @default(uuid())
+  githubId  Int    @unique
+  name      String
+  login     String
+  avatarUrl String
+
+  memories Memory[]
+}
+
+model Memory {
   id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
+  coverUrl  String
+  content   String
+  isPublic  Boolean  @default(false)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  // posts     Post[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
