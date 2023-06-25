@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { ImageBackground, Text, View } from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import { styled } from "nativewind";
 
 import {
 	useFonts,
@@ -9,6 +10,10 @@ import {
 import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 
 import blurBg from "./src/assets/bg-blur.png";
+import Stripes from "./src/assets/stripes.svg";
+import NlwSpacetimeLogo from "./src/assets/nlw-spacetime-logo.svg";
+
+const StyledStripes = styled(Stripes);
 
 export default function App() {
 	const [hasLoadedFonts] = useFonts({
@@ -24,12 +29,39 @@ export default function App() {
 	return (
 		<ImageBackground
 			source={blurBg}
-			className="relative flex-1 items-center  bg-gray-900 "
-			imageStyle={{ position: "absolute", left: "-120%" }}
+			className="relative flex-1 items-center  bg-gray-900 px-8 py-2"
+			imageStyle={{ position: "absolute", left: "-150%" }}
 		>
-			<StatusBar style="auto" translucent />
+			<StyledStripes className="absolute left-2" />
 
-			<Text>sadfnmklsaasedkjl</Text>
+			<View className="flex-1 items-center justify-center gap-6">
+				<NlwSpacetimeLogo />
+
+				<View className="space-y-2">
+					<Text className="text-center font-title text-2xl leading-tight text-gray-50">
+						Sua cápsula do tempo
+					</Text>
+
+					<Text className="text-center font-body text-base leading-relaxed text-gray-100">
+						Colecione momentos marcantes da sua jornada e compartilhe (se
+						quiser) com o mundo!
+					</Text>
+				</View>
+
+				<TouchableOpacity
+					className="rounded-full bg-green-500 px-5 py-2"
+					activeOpacity={0.7}
+				>
+					<Text className="font-alt text-sm uppercase text-black">
+						Começar a cadastrar
+					</Text>
+				</TouchableOpacity>
+			</View>
+
+			<Text className="text-center font-body text-sm leading-relaxed text-gray-200">
+				Feito com 💜 no NLW da Rocketseat
+			</Text>
+			<StatusBar style="auto" translucent />
 		</ImageBackground>
 	);
 }
