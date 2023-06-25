@@ -1,0 +1,15 @@
+{
+	"extends": [
+		"next/core-web-vitals", 
+		"plugin:prettier/recommended",
+		"@rocketseat/eslint-config/react"
+	],
+
+	"plugins": ["prettier"],
+
+	"rules": {
+		"prettier/prettier": "error",
+		"semi": ["error"],
+		"semi-style": ["error", "last"]
+	}
+}
