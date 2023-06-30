@@ -7,6 +7,6 @@ const app = fastify();
 app.register(cors, { origin: true });
 app.register(memoriesRoutes);
 
-app.listen({ port: 3000 }).then(() => {
-	console.log("🚀 HTTP server is running on http://localhost:3000");
+app.listen({ port: 3333 }).then(() => {
+	console.log("🚀 HTTP server is running on http://localhost:3333");
 });
