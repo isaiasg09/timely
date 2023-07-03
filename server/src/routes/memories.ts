@@ -3,9 +3,17 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 
 export async function memoriesRoutes(app: FastifyInstance) {
+	// verify if the user is authenticated before executing the route handler
+	app.addHook("preHandler", async (request) => {
+		await request.jwtVerify();
+	});
+
 	// get all memories in ascending order
-	app.get("/memories", async () => {
+	app.get("/memories", async (request) => {
 		const memories = await prisma.memory.findMany({
+			where: {
+				userId: request.user.sub
+			},
 			orderBy: {
 				createdAt: "asc"
 			}
@@ -21,7 +29,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
 	});
 
 	// get memory by id
-	app.get("/memories/:id", async (request) => {
+	app.get("/memories/:id", async (request, response) => {
 		const paramsSchema = z.object({
 			id: z.string().uuid()
 		});
@@ -33,6 +41,11 @@ export async function memoriesRoutes(app: FastifyInstance) {
 				id: id
 			}
 		});
+
+		// verify if the user id of the memory is the same as the user that is trying to access the memory and if the memory is public
+		if (!memory.isPublic && memory.userId !== request.user.sub) {
+			return response.status(401).send();
+		}
 
 		return memory;
 	});
@@ -52,7 +65,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
 				content: content,
 				coverUrl: coverUrl,
 				isPublic: isPublic,
-				userId: "16dfd57a-6a8c-45cb-af73-c08ffbf0cc80"
+				userId: request.user.sub
 			}
 		});
 
@@ -60,7 +73,7 @@ export async function memoriesRoutes(app: FastifyInstance) {
 	});
 
 	// update memory by id
-	app.put("/memories/:id", async (request) => {
+	app.put("/memories/:id", async (request, response) => {
 		const paramsSchema = z.object({
 			id: z.string().uuid()
 		});
@@ -73,7 +86,18 @@ export async function memoriesRoutes(app: FastifyInstance) {
 		const { content, coverUrl, isPublic } = bodySchema.parse(request.body);
 		const { id } = paramsSchema.parse(request.params);
 
-		const memory = await prisma.memory.update({
+		let memory = await prisma.memory.findUniqueOrThrow({
+			where: {
+				id
+			}
+		});
+
+		// verify if the user id of the memory is the same as the user that is trying to update the memory
+		if (memory.userId !== request.user.sub) {
+			return response.status(401).send();
+		}
+
+		memory = await prisma.memory.update({
 			where: {
 				id: id
 			},
@@ -88,12 +112,23 @@ export async function memoriesRoutes(app: FastifyInstance) {
 	});
 
 	// delete memory by id
-	app.delete("/memories/:id", async (request) => {
+	app.delete("/memories/:id", async (request, response) => {
 		const paramsSchema = z.object({
 			id: z.string().uuid()
 		});
 
 		const { id } = paramsSchema.parse(request.params);
+
+		let memory = await prisma.memory.findUniqueOrThrow({
+			where: {
+				id
+			}
+		});
+
+		// verify if the user id of the memory is the same as the user that is trying to update the memory
+		if (memory.userId !== request.user.sub) {
+			return response.status(401).send();
+		}
 
 		await prisma.memory.delete({
 			where: {
