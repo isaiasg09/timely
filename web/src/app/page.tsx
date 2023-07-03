@@ -28,6 +28,8 @@ export default function Home() {
 			<div className="flex flex-col bg-[url(../assets/bg-stars-r.svg)] bg-cover p-16">
 				{/* Empty Memories */}
 				<EmptyMemories />
+
+				
 			</div>
 		</main>
 	);
