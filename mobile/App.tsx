@@ -3,6 +3,7 @@ import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 import { StatusBar } from "expo-status-bar";
 import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import { styled } from "nativewind";
+import * as SecureStore from "expo-secure-store";
 
 import {
 	useFonts,
@@ -61,9 +62,11 @@ export default function App() {
 					const { token } = response.data;
 
 					console.log(token);
-				})
+
+					SecureStore.setItemAsync("token", token);
+				})	
 				.catch((err) => {
-					console.log(err.response.data);
+					console.error(err.response.data);
 				});
 		}
 	}, [response]);
