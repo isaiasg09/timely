@@ -17,6 +17,8 @@ app.register(fastifyJwt, {
 app.register(memoriesRoutes);
 app.register(authRoutes);
 
-app.listen({ port: 3333 }).then(() => {
-	console.log("🚀 HTTP server is running on http://localhost:3333");
+const port = 3333;
+
+app.listen({ port: port, host: "0.0.0.0" }).then(() => {
+	console.log(`🚀 HTTP server is running on http://localhost:${port}`);
 });

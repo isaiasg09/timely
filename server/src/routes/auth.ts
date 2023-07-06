@@ -40,8 +40,8 @@ export async function authRoutes(app: FastifyInstance) {
 		const userSchema = z.object({
 			id: z.number(),
 			login: z.string(),
-			avatar_url: z.string().url(),
-			name: z.string()
+			name: z.string(),
+			avatar_url: z.string().url()
 		});
 
 		const userInfo = userSchema.parse(userResponse.data);
