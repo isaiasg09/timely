@@ -12,10 +12,11 @@ import {
 } from "@expo-google-fonts/roboto";
 import { BaiJamjuree_700Bold } from "@expo-google-fonts/bai-jamjuree";
 
-import blurBg from "./src/assets/bg-blur.png";
-import Stripes from "./src/assets/stripes.svg";
-import NlwSpacetimeLogo from "./src/assets/nlw-spacetime-logo.svg";
-import { api } from "./src/lib/api";
+import blurBg from "../src/assets/bg-blur.png";
+import Stripes from "../src/assets/stripes.svg";
+import NlwSpacetimeLogo from "../src/assets/nlw-spacetime-logo.svg";
+import { api } from "../src/lib/api";
+import { useRouter } from "expo-router";
 
 const StyledStripes = styled(Stripes);
 
@@ -27,13 +28,15 @@ const discovery = {
 };
 
 export default function App() {
+	const router = useRouter();
+
 	const [hasLoadedFonts] = useFonts({
 		Roboto_400Regular,
 		Roboto_700Bold,
 		BaiJamjuree_700Bold
 	});
 
-	const [request, response, signInWithGithub] = useAuthRequest(
+	const [, response, signInWithGithub] = useAuthRequest(
 		{
 			clientId: "d99c5a26341cfd571fba",
 			scopes: ["identity"],
@@ -43,6 +46,18 @@ export default function App() {
 		},
 		discovery
 	);
+
+	async function handleGithubOAuthCode(code: string) {
+		const response = await api.post("/register", { code });
+
+		const { token } = response.data;
+
+		console.log(token);
+
+		await SecureStore.setItemAsync("token", token);
+
+		router.push('/memories')
+	}
 
 	useEffect(() => {
 		// console.log(
@@ -56,18 +71,7 @@ export default function App() {
 		if (response?.type === "success") {
 			const { code } = response.params;
 
-			api
-				.post("/register", { code })
-				.then((response) => {
-					const { token } = response.data;
-
-					console.log(token);
-
-					SecureStore.setItemAsync("token", token);
-				})	
-				.catch((err) => {
-					console.error(err.response.data);
-				});
+			handleGithubOAuthCode(code);
 		}
 	}, [response]);
 
@@ -78,7 +82,8 @@ export default function App() {
 	return (
 		<ImageBackground
 			source={blurBg}
-			className="relative flex-1 items-center  bg-gray-900 px-8 py-2"
+			// className="relative flex-1 items-center bg-gray-900 px-8 py-2 "
+			className="relative flex-1 items-center bg-gray-900 px-8 py-2 "
 			imageStyle={{ position: "absolute", left: "-150%" }}
 		>
 			<StyledStripes className="absolute left-2 " />
@@ -111,6 +116,7 @@ export default function App() {
 			<Text className="text-center font-body text-sm leading-relaxed text-gray-200">
 				Feito com 💜 no NLW da Rocketseat
 			</Text>
+
 			<StatusBar style="auto" translucent />
 		</ImageBackground>
 	);

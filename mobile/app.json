@@ -15,8 +15,8 @@
 		"ios": {
 			"supportsTablet": true,
 			"config": {
-        "usesNonExemptEncryption": false
-      }
+				"usesNonExemptEncryption": false
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
@@ -25,7 +25,8 @@
 			}
 		},
 		"web": {
-			"favicon": "./assets/favicon.png"
+			"favicon": "./assets/favicon.png",
+			"bundler": "metro"
 		},
 		"scheme": "nlw-spacetime-timely"
 	}
