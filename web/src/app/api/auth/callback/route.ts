@@ -6,6 +6,9 @@ export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const code = searchParams.get("code");
 
+	// get redirect URL from cookie
+	const redirectTo = request.cookies.get("redirectTo")?.value;
+
 	// send code to backend
 	const registerResponse = await api.post("/register", {
 		code
@@ -15,7 +18,7 @@ export async function GET(request: NextRequest) {
 	const { token } = registerResponse.data;
 
 	// redirect to home page with token in cookie
-	const redirectUrl = new URL("/", request.url);
+	const redirectUrl = redirectTo ?? new URL("/", request.url);
 
 	const cookieExpiresInSeconds = 60 * 60 * 24 * 30; // 1 month
 

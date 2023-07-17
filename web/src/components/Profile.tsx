@@ -1,6 +1,7 @@
 import decode from "jwt-decode";
 import { cookies } from "next/dist/client/components/headers";
 import Image from "next/image";
+import Link from "next/link";
 
 interface User {
 	name: string;
@@ -31,9 +32,13 @@ export function Profile() {
 			</div>
 
 			<div className="ml-4 flex flex-col items-start justify-center">
-				<h1 className="text-xl font-bold ">{user.name}</h1>
-				<p className="text-sm font-medium ">@{user.username}</p>
-				<a href="/api/auth/logout" className="mt-1 block text-red-400 hover:text-red-300 transition	">
+				<h1 className="text-lg font-bold text-gray-100">{user.name}</h1>
+				<p className="text-xs font-medium text-gray-200">@{user.username}</p>
+
+				<a
+					href="/api/auth/logout"
+					className="mt-1 block text-sm text-red-400 transition hover:text-red-300	"
+				>
 					Sair
 				</a>
 			</div>
