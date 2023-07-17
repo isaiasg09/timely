@@ -1,35 +1,48 @@
+import Link from "next/link";
+
 import { ChevronLeft, Image } from "lucide-react";
 
 export default function NewMemory() {
 	return (
-		<div>
-			<a className="flex items-center gap-2" href="/">
-				<ChevronLeft />
+		<div className="flex  flex-1 flex-col">
+			<Link
+				className="flex items-center gap-2 text-sm text-gray-200 hover:text-gray-100"
+				href="/"
+			>
+				<ChevronLeft className="h-4 w-4" />
 				voltar à timeline
-			</a>
+			</Link>
 
-			<form className="mt-4 flex h-full flex-col gap-3">
-				<div className="flex gap-3">
-					<button className="flex items-center gap-1">
-						<Image />
+			<form className="mt-4 flex h-full flex-1 flex-col gap-3">
+				<div className="flex items-center gap-4">
+					<label
+						htmlFor="media"
+						className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
+					>
+						<Image className="h-4 w-4" />
 						Anexar mídia
-					</button>
+						<input type="file" id="media" className="hidden" />
+					</label>
 
-					<div className="flex items-center gap-1">
+					<label
+						htmlFor="isPublic"
+						className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100 "
+					>
 						<input
 							type="checkbox"
-							name="public"
-							id="public"
-							className="h-4 w-4 rounded-sm border border-gray-300 outline-none "
+							name="isPublic"
+							id="isPublic"
+							value="false"
+							className="h-4 w-4 rounded border-gray-400 bg-gray-700 text-purple-500  cursor-pointer transition"
 						/>
-
-						<label htmlFor="public">Tornar memória pública</label>
-					</div>
+						Tornar memória pública
+					</label>
 				</div>
 
-				<input
-					className="bg-transparent outline-none text-xl max-w-fit"
-					type="text"
+				<textarea
+				name="content"
+				spellCheck={false}
+					className="w-full resize-none flex-1 rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0 "
 					placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre."
 				/>
 			</form>
