@@ -33,7 +33,7 @@ export function Profile() {
 			<div className="ml-4 flex flex-col items-start justify-center">
 				<h1 className="text-xl font-bold ">{user.name}</h1>
 				<p className="text-sm font-medium ">@{user.username}</p>
-				<a href="#" className="mt-1 block text-red-400 hover:text-red-300 transition	">
+				<a href="/api/auth/logout" className="mt-1 block text-red-400 hover:text-red-300 transition	">
 					Sair
 				</a>
 			</div>
