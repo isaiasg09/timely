@@ -8,6 +8,7 @@ import multipart from "@fastify/multipart";
 import { memoriesRoutes } from "./routes/memories";
 import { authRoutes } from "./routes/auth";
 import { uploadRoutes } from "./routes/upload";
+import { resolve } from "node:path";
 
 const app = fastify();
 
@@ -17,6 +18,10 @@ app.register(fastifyJwt, {
 		"spacetimeojsjsjsjjsjsjsjsjjjkjkcjnjnkjvhbhfbfhkvffffffffffffffffffhjsdfhdsjfghdsgfdhsghdhdhdhdhdhhdhddhdhdhhdhdhdhdhhdhdhdhdhdhhdhdhdfgvjdnfgvdhjnngvjhdbbh"
 });
 app.register(multipart);
+app.register(require("@fastify/static"), {
+	root: resolve(__dirname, "../uploads"),
+	prefix: "/uploads/"
+});
 
 app.register(authRoutes);
 app.register(uploadRoutes);
