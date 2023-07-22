@@ -2,10 +2,12 @@ import "dotenv/config";
 
 import fastify from "fastify";
 import cors from "@fastify/cors";
+import fastifyJwt from "@fastify/jwt";
+import multipart from "@fastify/multipart";
 
 import { memoriesRoutes } from "./routes/memories";
 import { authRoutes } from "./routes/auth";
-import fastifyJwt from "@fastify/jwt";
+import { uploadRoutes } from "./routes/upload";
 
 const app = fastify();
 
@@ -14,8 +16,11 @@ app.register(fastifyJwt, {
 	secret:
 		"spacetimeojsjsjsjjsjsjsjsjjjkjkcjnjnkjvhbhfbfhkvffffffffffffffffffhjsdfhdsjfghdsgfdhsghdhdhdhdhdhhdhddhdhdhhdhdhdhdhhdhdhdhdhdhhdhdhdfgvjdnfgvdhjnngvjhdbbh"
 });
-app.register(memoriesRoutes);
+app.register(multipart);
+
 app.register(authRoutes);
+app.register(uploadRoutes);
+app.register(memoriesRoutes);
 
 const port = 3333;
 
