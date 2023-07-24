@@ -33,7 +33,7 @@ export default function App() {
 
 		const { token } = response.data;
 
-		console.log(token);
+		// console.log(token);
 
 		await SecureStore.setItemAsync("token", token);
 

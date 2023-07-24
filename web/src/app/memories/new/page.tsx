@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ChevronLeft, Image } from "lucide-react";
+import { MediaPicker } from "@/components/MediaPicker";
 
 export default function NewMemory() {
 	return (
@@ -21,7 +22,6 @@ export default function NewMemory() {
 					>
 						<Image className="h-4 w-4" />
 						Anexar mídia
-						<input type="file" id="media" className="hidden" />
 					</label>
 
 					<label
@@ -33,16 +33,19 @@ export default function NewMemory() {
 							name="isPublic"
 							id="isPublic"
 							value="false"
-							className="h-4 w-4 rounded border-gray-400 bg-gray-700 text-purple-500  cursor-pointer transition"
+							className="h-4 w-4 cursor-pointer rounded border-gray-400 bg-gray-700  text-purple-500 transition"
 						/>
 						Tornar memória pública
 					</label>
 				</div>
 
+				
+				<MediaPicker />
+
 				<textarea
-				name="content"
-				spellCheck={false}
-					className="w-full resize-none flex-1 rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0 "
+					name="content"
+					spellCheck={false}
+					className="w-full flex-1 resize-none rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0 "
 					placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre."
 				/>
 			</form>
