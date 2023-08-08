@@ -11,11 +11,11 @@ export function MediaPicker() {
 
 		if (!files) return;
 
-		console.log(files[0]);
-
 		if (files[0].type.match("video.*")) {
 			setIsPreviewVideo(true);
-		}
+		} else {
+      setIsPreviewVideo(false);
+    }
 
 		const previewUrl = URL.createObjectURL(files[0]);
 
@@ -26,6 +26,7 @@ export function MediaPicker() {
 		<>
 			<input
 				onChange={onFileSelected}
+				name="coverUrl"
 				type="file"
 				id="media"
 				accept="image/* video/*"
@@ -45,7 +46,7 @@ export function MediaPicker() {
 					src={preview}
 					className="aspect-video w-full rounded-lg object-cover"
 					controls
-				/>
+				/> 	
 			)}
 		</>
 	);
